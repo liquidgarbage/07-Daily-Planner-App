@@ -10,34 +10,38 @@ function displayCurrentDay() {
 displayCurrentDay();
 
 // Timeblock display color
-// want it to color code past present and future, comparing current time to the time blocks
-
-var currentHour = dayjs().format("H");
+var currentHour = dayjs().hour();
 console.log(currentHour);
 
 function colorCodeTimeblocks() {
-  for (var i = 0; i < timeBlock.length; i++) {
-    if (timeBlock[i].dataset.time == currentHour) {
-      timeBlock[i].classList.remove("past");
-      timeBlock[i].classList.remove("future");
-      timeBlock[i].classList.add("present");
-    } else if (timeBlock[i].dataset.time > currentHour) {
-      timeBlock[i].classList.remove("past");
-      timeBlock[i].classList.remove("present");
-      timeBlock[i].classList.add("future");
-    } else if (timeBlock[i].dataset.time < currentHour) {
-      timeBlock[i].classList.remove("present");
-      timeBlock[i].classList.remove("future");
-      timeBlock[i].classList.add("past");
+  timeBlock.each(function () {
+    const timeBlockHour = parseInt($(this).attr("id"));
+    console.log(timeBlockHour);
+    if (timeBlockHour == currentHour) {
+      $(this).removeClass("past");
+      $(this).removeClass("future");
+      $(this).addClass("present");
+    } else if (timeBlockHour > currentHour) {
+      $(this).removeClass("past");
+      $(this).removeClass("present");
+      $(this).addClass("future");
+    } else if (timeBlockHour < currentHour) {
+      $(this).removeClass("present");
+      $(this).removeClass("future");
+      $(this).addClass("past");
     }
-  }
+  });
 }
 
 colorCodeTimeblocks();
 
 // Save button
 saveBtn.on("click", function () {
-  console.log("clicked");
-
-  localStorage.setItem;
+  alert("saved");
+  const time = $(this).parent().attr("id");
+  const value = $(this).siblings(".description").val();
+  localStorage.setItem(time, value);
 });
+for (let index = 9; index < 18; index++) {
+  $("#" + index + " .description").val(localStorage.getItem(index));
+}
